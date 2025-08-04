@@ -1,0 +1,114 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: '发布类型'
+        required: true
+        default: 'release'
+        type: choice
+        options:
+        - release
+        - prerelease
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
+
+    - name: Remove local Java path
+      run: sed -i 's/^org.gradle.java.home=/#&/' gradle.properties
+
+    - name: Test Gradle
+      run: ./gradlew --version
+
+    - name: Clean project
+      run: ./gradlew clean --no-daemon
+
+    - name: Build project
+      run: ./gradlew build --no-daemon -x dependencyCheckAnalyze
+
+    - name: List artifacts
+      run: ls -la build/libs/
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: experiencebarfix-${{ github.sha }}
+        path: build/libs/*.jar
+
+    - name: Create Development Release
+      if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+      uses: softprops/action-gh-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: dev-${{ github.run_number }}
+        name: 开发版构建 #${{ github.run_number }}
+        body: |
+          ## 🚧 开发版构建 - Experience Bar Fix
+          
+          **⚠️ 这是开发版本，可能包含未完全测试的功能！**
+          
+          ### 构建信息
+          - 提交: ${{ github.sha }}
+          - 分支: ${{ github.ref_name }}
+          - 构建时间: ${{ github.event.head_commit.timestamp }}
+          
+          ### 最近更改
+          ${{ github.event.head_commit.message }}
+        prerelease: true
+        draft: false
+        files: build/libs/experiencebarfix-1.0.0.jar
+
+    - name: Create Official Release
+      if: github.event_name == 'workflow_dispatch'
+      uses: softprops/action-gh-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v1.0.0
+        name: Experience Bar Fix v1.0.0
+        body: |
+          ## 🎉 Experience Bar Fix v1.0.0
+          
+          修复 Minecraft 1.20.1 传送后经验条消失的问题
+          
+          ### ✨ 主要功能
+          - 🔧 修复传送后经验条消失的问题
+          - 🌐 支持多种传送方式（命令、传送门、末影珍珠等）
+          - ⚙️ 可配置的修复设置
+          - 🔄 自动重试机制确保修复成功
+          
+          ### 📋 兼容性
+          - ✅ Minecraft 1.20.1
+          - ✅ Forge 47.2.0+
+          - ✅ 服务端和客户端
+          
+          ### 📦 安装方法
+          1. 下载下方的 jar 文件
+          2. 放入 mods 文件夹
+          3. 使用 Forge 启动 Minecraft
+          
+          ### 📝 许可证
+          本项目采用 GPL v3.0 开源许可证
+        prerelease: ${{ github.event.inputs.release_type == 'prerelease' }}
+        draft: false
+        files: build/libs/experiencebarfix-1.0.0.jar
