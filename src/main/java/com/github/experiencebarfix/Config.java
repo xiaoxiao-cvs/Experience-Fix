@@ -38,10 +38,32 @@ public class Config {
             .comment("当主要修复方法失败时使用备用方法")
             .define("fallbackMethod", true);
     
+    // 日志配置部分
     public static final ForgeConfigSpec.BooleanValue DEBUG_LOGGING = BUILDER
             .comment("启用调试日志记录以便故障排除")
             .define("debugLogging", false);
     
+    public static final ForgeConfigSpec.BooleanValue PERFORMANCE_LOGGING = BUILDER
+            .comment("启用性能监控日志记录")
+            .define("performanceLogging", false);
+    
+    public static final ForgeConfigSpec.BooleanValue STATISTICS_LOGGING = BUILDER
+            .comment("启用统计信息日志记录")
+            .define("statisticsLogging", true);
+    
+    public static final ForgeConfigSpec.IntValue STATISTICS_INTERVAL = BUILDER
+            .comment("统计信息记录间隔，单位为分钟 (1-60)")
+            .defineInRange("statisticsInterval", 10, 1, 60);
+    
+    public static final ForgeConfigSpec.BooleanValue PLAYER_TRACKING_LOGGING = BUILDER
+            .comment("启用玩家跟踪详细日志")
+            .define("playerTrackingLogging", false);
+    
+    public static final ForgeConfigSpec.BooleanValue ERROR_DETAILS_LOGGING = BUILDER
+            .comment("启用详细错误信息日志")
+            .define("errorDetailsLogging", true);
+    
+    // 修复功能配置部分
     public static final ForgeConfigSpec.BooleanValue FIX_DIMENSION_CHANGE = BUILDER
             .comment("在维度变化时修复经验条")
             .define("fixDimensionChange", true);

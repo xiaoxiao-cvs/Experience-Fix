@@ -29,7 +29,9 @@
 -  **可配置**: 丰富的配置选项，满足不同需求
 -  **兼容性**: 不依赖额外存储，兼容性强
 -  **容错性**: 异常处理完善，不会导致崩溃
--  **调试支持**: 可选的调试日志功能
+-  **详细日志**: 完整的日志系统，包含统计、性能监控和错误跟踪
+-  **玩家跟踪**: 实时监控玩家活动和修复效果
+-  **性能分析**: 详细的修复时间分析和性能报告
 
 ## 安装
 
@@ -42,6 +44,7 @@
 
 配置文件位于 `config/experiencebarfix-common.toml`：
 
+### 基础配置
 ```toml
 [general]
 # 启用经验条修复
@@ -50,13 +53,30 @@ enabled = true
 fixDelay = 2
 # 启用备用修复方法
 fallbackMethod = true
-# 启用调试日志
-debugLogging = false
 # 修复维度切换
 fixDimensionChange = true
 # 修复重生
 fixRespawn = true
 ```
+
+### 日志配置
+```toml
+[logging]
+# 启用调试日志
+debugLogging = false
+# 启用性能监控日志
+performanceLogging = false
+# 启用统计信息日志
+statisticsLogging = true
+# 统计信息记录间隔（分钟）
+statisticsInterval = 10
+# 启用玩家跟踪详细日志
+playerTrackingLogging = false
+# 启用详细错误信息日志
+errorDetailsLogging = true
+```
+
+**详细日志系统说明请查看**: [LOG_SYSTEM_GUIDE.md](LOG_SYSTEM_GUIDE.md)
 
 ## 开发
 
