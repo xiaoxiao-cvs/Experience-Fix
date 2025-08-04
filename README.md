@@ -1,8 +1,11 @@
 # Experience Bar Fix
 
+[![Build and Release](https://github.com/xiaoxiao-cvs/Experience-Fix/actions/workflows/build-and-release.yml/badge.svg)](https://github.com/xiaoxiao-cvs/Experience-Fix/actions/workflows/build-and-release.yml)
+[![Security Scan](https://github.com/xiaoxiao-cvs/Experience-Fix/actions/workflows/security-scan.yml/badge.svg)](https://github.com/xiaoxiao-cvs/Experience-Fix/actions/workflows/security-scan.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Minecraft Version](https://img.shields.io/badge/Minecraft-1.20.1-green.svg)](https://minecraft.net/)
 [![Forge Version](https://img.shields.io/badge/Forge-47.2.0-orange.svg)](https://minecraftforge.net/)
+[![GitHub release](https://img.shields.io/github/v/release/xiaoxiao-cvs/Experience-Fix)](https://github.com/xiaoxiao-cvs/Experience-Fix/releases)
 
 一个用于修复 Minecraft 1.20.1 中传送后经验条消失问题的 Forge Mod。
 
@@ -21,12 +24,12 @@
 
 ## 特性
 
-- ✅ **多重保障**: 主要修复方法 + 备用方法确保成功率
-- ✅ **高性能**: 只在需要时执行，不影响游戏性能
-- ✅ **可配置**: 丰富的配置选项，满足不同需求
-- ✅ **兼容性**: 不依赖额外存储，兼容性强
-- ✅ **容错性**: 异常处理完善，不会导致崩溃
-- ✅ **调试支持**: 可选的调试日志功能
+-  **多重保障**: 主要修复方法 + 备用方法确保成功率
+-  **高性能**: 只在需要时执行，不影响游戏性能
+-  **可配置**: 丰富的配置选项，满足不同需求
+-  **兼容性**: 不依赖额外存储，兼容性强
+-  **容错性**: 异常处理完善，不会导致崩溃
+-  **调试支持**: 可选的调试日志功能
 
 ## 安装
 

@@ -83,3 +83,15 @@ Thumbs.db
 *.temp
 *.swp
 *~
+
+# Dependency Check Reports
+dependency-check-report.html
+dependency-check-report.json
+dependency-check-report.xml
+
+# GitHub Actions artifacts
+.github/workflows/artifacts/
+
+# Security scan results
+.security/
+security-reports/

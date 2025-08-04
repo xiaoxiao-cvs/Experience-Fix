@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+    <!-- 
+    这个文件用于抑制误报的依赖项漏洞警告
+    仅在确认某个漏洞不适用于当前项目时才使用抑制
+    -->
+    
+    <!-- 示例抑制规则（请根据实际需要修改）
+    <suppress>
+        <notes><![CDATA[
+        这是一个示例抑制规则
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/.*$</packageUrl>
+        <cve>CVE-YYYY-NNNN</cve>
+    </suppress>
+    -->
+</suppressions>

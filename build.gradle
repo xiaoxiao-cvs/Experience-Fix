@@ -13,9 +13,10 @@ plugins {
     id 'eclipse'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '6.0.+'
+    id 'org.owasp.dependencycheck' version '8.4.0'
 }
 
-version = '1.0.0'
+version = project.findProperty('mod_version') ?: '1.0.0'
 group = 'com.github.experiencebarfix'
 archivesBaseName = 'experiencebarfix'
 
@@ -128,3 +129,23 @@ publishing {
         }
     }
 }
+
+// 依赖项安全检查配置
+dependencyCheck {
+    format = 'HTML'
+    format = 'JSON'
+    suppressionFile = 'dependency-check-suppressions.xml'
+    
+    // 设置 CVE 数据源更新
+    autoUpdate = true
+    
+    // 配置分析器
+    analyzers {
+        assemblyEnabled = false
+        nuspecEnabled = false
+        nugetconfEnabled = false
+    }
+}
+
+// 任务依赖关系
+tasks.check.dependsOn tasks.dependencyCheckAnalyze
