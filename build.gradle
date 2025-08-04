@@ -1,0 +1,130 @@
+buildscript {
+    repositories {
+        // 这些仓库仅用于 Gradle 插件，将其他仓库放在下方的 repository 块中
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '6.0.+', changing: true
+    }
+}
+
+plugins {
+    id 'eclipse'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '6.0.+'
+}
+
+version = '1.0.0'
+group = 'com.github.experiencebarfix'
+archivesBaseName = 'experiencebarfix'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+// 强制 Java 17 兼容性，即使使用更新的 JVM
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+// 新版本 Java 的兼容性解决方案
+tasks.withType(JavaCompile) {
+    options.release = 17
+    options.encoding = 'UTF-8'
+}
+
+println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
+
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+    
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                experiencebarfix {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                experiencebarfix {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        gameTestServer {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                experiencebarfix {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            args '--mod', 'experiencebarfix', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            mods {
+                experiencebarfix {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    // 在此处放置依赖项的仓库
+    // ForgeGradle 会自动为您添加 Forge maven 和 Maven Central
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.1-47.2.0'
+}
+
+// 如何将属性放入清单文件以在运行时读取的示例
+jar {
+    manifest {
+        attributes([
+                "Specification-Title"     : "经验条修复",
+                "Specification-Vendor"   : "经验条修复团队",
+                "Specification-Version"  : "1", // 我们是自己的版本 1
+                "Implementation-Title"   : project.name,
+                "Implementation-Version" : "${version}",
+                "Implementation-Vendor"  : "经验条修复团队",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+jar.finalizedBy('reobfJar')
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact jar
+        }
+    }
+    repositories {
+        if (project.hasProperty('maven_url')) {
+            maven {
+                url = project.getProperty('maven_url')
+            }
+        }
+    }
+}
