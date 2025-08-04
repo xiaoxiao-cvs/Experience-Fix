@@ -102,12 +102,12 @@ dependencies {
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : "经验条修复",
-                "Specification-Vendor"   : "经验条修复团队",
+                "Specification-Title"     : "Experience Bar Fix",
+                "Specification-Vendor"   : "Experience Bar Fix Team",
                 "Specification-Version"  : "1", // 我们是自己的版本 1
                 "Implementation-Title"   : project.name,
                 "Implementation-Version" : "${version}",
-                "Implementation-Vendor"  : "经验条修复团队",
+                "Implementation-Vendor"  : "Experience Bar Fix Team",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }

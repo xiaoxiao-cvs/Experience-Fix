@@ -1,14 +1,14 @@
 modLoader="javafml"
 loaderVersion="[47,)"
-license="MIT"
-issueTrackerURL="https://github.com/yourusername/ExperienceBarFix/issues"
+license="GPL-3.0"
+issueTrackerURL="https://github.com/xiaoxiao-cvs/Experience-Fix/issues"
 [[mods]]
 modId="experiencebarfix"
 version="${file.jarVersion}"
-displayName="经验条修复模组"
+displayName="Experience Bar Fix"
 logoFile="logo.png"
 credits="感谢 Forge 社区的支持"
-authors="经验条修复团队"
+authors="Experience Bar Fix Team"
 description='''
 修复 Minecraft 1.20.1 中传送后经验条消失的问题。
 此模组会自动检测传送事件并刷新经验条显示。

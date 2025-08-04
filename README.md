@@ -2,7 +2,7 @@
 
 [![Build and Release](https://github.com/xiaoxiao-cvs/Experience-Fix/actions/workflows/build-and-release.yml/badge.svg)](https://github.com/xiaoxiao-cvs/Experience-Fix/actions/workflows/build-and-release.yml)
 [![Security Scan](https://github.com/xiaoxiao-cvs/Experience-Fix/actions/workflows/security-scan.yml/badge.svg)](https://github.com/xiaoxiao-cvs/Experience-Fix/actions/workflows/security-scan.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Minecraft Version](https://img.shields.io/badge/Minecraft-1.20.1-green.svg)](https://minecraft.net/)
 [![Forge Version](https://img.shields.io/badge/Forge-47.2.0-orange.svg)](https://minecraftforge.net/)
 [![GitHub release](https://img.shields.io/github/v/release/xiaoxiao-cvs/Experience-Fix)](https://github.com/xiaoxiao-cvs/Experience-Fix/releases)
@@ -109,7 +109,11 @@ src/main/java/com/github/experiencebarfix/
 
 ## 许可证
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+本项目采用 GNU General Public License v3.0 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+
+本程序是自由软件：您可以在自由软件基金会发布的 GNU 通用公共许可证第 3 版或（根据您的选择）任何更高版本的条款下重新分发和/或修改它。
+
+发布此程序是希望它有用，但没有任何保证；甚至没有适销性或特定用途适用性的隐含保证。有关更多详细信息，请参阅 GNU 通用公共许可证。
 
 ## 致谢
 
@@ -119,7 +123,7 @@ src/main/java/com/github/experiencebarfix/
 
 ## 相关链接
 
-- [Issue 追踪](https://github.com/yourusername/ExperienceBarFix/issues)
+- [Issue 追踪](https://github.com/xiaoxiao-cvs/Experience-Fix/issues)
 - [Minecraft Forge](https://minecraftforge.net/)
 - [Mod 发布页面](https://www.curseforge.com/minecraft/mc-mods/experience-bar-fix)
 
