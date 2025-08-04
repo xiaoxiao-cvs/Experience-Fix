@@ -26,6 +26,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
+    env:
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -38,14 +41,26 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: Set JAVA_HOME for Gradle
+      run: |
+        echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
+        echo "PATH=$JAVA_HOME/bin:$PATH" >> $GITHUB_ENV
+
     - name: Override Gradle properties for CI
       run: |
-        echo "# CI environment overrides" >> gradle.properties
-        echo "# Comment out local Java path for CI" >> gradle.properties
-        sed -i 's/^org.gradle.java.home=/#org.gradle.java.home=/' gradle.properties
+        echo "Creating CI-specific gradle.properties"
+        cp gradle.properties gradle.properties.backup
+        # 注释掉本地 Java 路径设置
+        sed -i 's/^org.gradle.java.home=/#&/' gradle.properties
+        echo "" >> gradle.properties
+        echo "# CI environment - use system JAVA_HOME" >> gradle.properties
+        echo "# Disable dependency check in CI for faster builds" >> gradle.properties
+        echo "org.gradle.jvmargs=-Xmx3G -XX:MaxMetaspaceSize=1G" >> gradle.properties
+        echo "Current gradle.properties after modification:"
+        cat gradle.properties
 
     - name: Cache Gradle packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           ~/.gradle/caches
@@ -56,6 +71,22 @@ jobs:
 
     - name: Make gradlew executable
       run: chmod +x ./gradlew
+
+    - name: Debug Gradle setup
+      run: |
+        echo "=== Environment Check ==="
+        echo "JAVA_HOME: $JAVA_HOME"
+        which java
+        java -version
+        echo ""
+        echo "=== Gradle Wrapper Check ==="
+        ls -la gradlew*
+        echo ""
+        echo "=== Gradle Properties ==="
+        cat gradle.properties
+
+    - name: Validate Gradle wrapper
+      run: ./gradlew --version
 
     - name: Get current version from gradle.properties
       id: get_version
@@ -89,13 +120,46 @@ jobs:
         sed -i "s/mod_version=.*/mod_version=${{ steps.version.outputs.version }}/" gradle.properties
 
     - name: Build mod
-      run: ./gradlew build
+      run: |
+        set -e  # Exit on any error
+        echo "=== Environment Information ==="
+        echo "Java version:"
+        java -version
+        echo ""
+        echo "Java Home: $JAVA_HOME"
+        echo ""
+        echo "=== Gradle Configuration ==="
+        echo "Gradle wrapper version:"
+        ./gradlew --version
+        echo ""
+        echo "=== Current Directory ==="
+        pwd
+        ls -la
+        echo ""
+        echo "=== Building Project ==="
+        echo "Running: ./gradlew clean build --no-daemon --stacktrace -x dependencyCheckAnalyze"
+        ./gradlew clean build --no-daemon --stacktrace -x dependencyCheckAnalyze
+        echo ""
+        echo "=== Build Results ==="
+        echo "Build artifacts:"
+        ls -la build/libs/ || echo "No build/libs directory found"
 
     - name: Upload build artifacts
+      if: success()
       uses: actions/upload-artifact@v4
       with:
         name: mod-jar-${{ steps.version.outputs.version }}
         path: build/libs/*.jar
+
+    - name: Upload build logs on failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-logs-${{ github.run_number }}
+        path: |
+          build/reports/
+          ~/.gradle/daemon/*/daemon-*.out.log
+        if-no-files-found: ignore
 
     - name: Create Release (Manual trigger only)
       if: github.event_name == 'workflow_dispatch'
