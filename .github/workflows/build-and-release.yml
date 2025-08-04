@@ -38,6 +38,12 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: Override Gradle properties for CI
+      run: |
+        echo "# CI environment overrides" >> gradle.properties
+        echo "# Comment out local Java path for CI" >> gradle.properties
+        sed -i 's/^org.gradle.java.home=/#org.gradle.java.home=/' gradle.properties
+
     - name: Cache Gradle packages
       uses: actions/cache@v3
       with:

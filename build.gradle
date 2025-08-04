@@ -26,12 +26,17 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
+    // 确保使用 Java 17 工具链
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 // 新版本 Java 的兼容性解决方案
 tasks.withType(JavaCompile) {
     options.release = 17
     options.encoding = 'UTF-8'
+    // 移除可能与 --release 冲突的 JVM 参数
 }
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
