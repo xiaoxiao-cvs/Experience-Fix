@@ -30,22 +30,16 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Make gradlew executable
-      run: chmod +x ./gradlew
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
 
-    - name: Remove local Java path
+    - name: Remove local Java path from gradle.properties
       run: sed -i 's/^org.gradle.java.home=/#&/' gradle.properties
 
-    - name: Test Gradle
-      run: ./gradlew --version
+    - name: Build with Gradle
+      run: gradle clean build -x dependencyCheckAnalyze --no-daemon
 
-    - name: Clean project
-      run: ./gradlew clean --no-daemon
-
-    - name: Build project
-      run: ./gradlew build --no-daemon -x dependencyCheckAnalyze
-
-    - name: List artifacts
+    - name: List build artifacts
       run: ls -la build/libs/
 
     - name: Upload artifacts
