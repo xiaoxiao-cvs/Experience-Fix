@@ -47,10 +47,19 @@ jobs:
     - name: List build artifacts
       run: ls -la build/libs/
 
+    - name: Get version from gradle.properties
+      id: get_version
+      run: |
+        VERSION=$(grep "mod_version" gradle.properties | cut -d'=' -f2)
+        ARCHIVES_BASE_NAME=$(grep "archivesBaseName" build.gradle | cut -d"'" -f2)
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+        echo "archives_base_name=$ARCHIVES_BASE_NAME" >> $GITHUB_OUTPUT
+
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: experiencebarfix-${{ github.sha }}
+        name: ${{ steps.get_version.outputs.archives_base_name }}-${{ steps.get_version.outputs.version }}-${{ github.sha }}
         path: build/libs/*.jar
 
     - name: Create Development Release
@@ -62,11 +71,12 @@ jobs:
         tag_name: dev-${{ github.run_number }}
         name: 开发版构建 #${{ github.run_number }}
         body: |
-          ## 🚧 开发版构建 - Experience Bar Fix
+          ## 🚧 开发版构建 - Experience Bar Fix v${{ steps.get_version.outputs.version }}
           
           **⚠️ 这是开发版本，可能包含未完全测试的功能！**
           
           ### 构建信息
+          - 版本: ${{ steps.get_version.outputs.version }}
           - 提交: ${{ github.sha }}
           - 分支: ${{ github.ref_name }}
           - 构建时间: ${{ github.event.head_commit.timestamp }}
@@ -75,14 +85,7 @@ jobs:
           ${{ github.event.head_commit.message }}
         prerelease: true
         draft: false
-        files: build/libs/experiencebarfix-1.0.0.jar
-
-    - name: Get version from gradle.properties
-      id: get_version
-      run: |
-        VERSION=$(grep "mod_version" gradle.properties | cut -d'=' -f2)
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
-        echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+        files: build/libs/${{ steps.get_version.outputs.archives_base_name }}-${{ steps.get_version.outputs.version }}.jar
 
     - name: Delete existing tag if exists
       if: github.event_name == 'workflow_dispatch'
@@ -125,6 +128,6 @@ jobs:
           本项目采用 GPL v3.0 开源许可证
         prerelease: ${{ github.event.inputs.release_type == 'prerelease' }}
         draft: false
-        files: build/libs/experiencebarfix-${{ steps.get_version.outputs.version }}.jar
+        files: build/libs/${{ steps.get_version.outputs.archives_base_name }}-${{ steps.get_version.outputs.version }}.jar
         fail_on_unmatched_files: true
         generate_release_notes: true

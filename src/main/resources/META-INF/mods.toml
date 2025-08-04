@@ -1,7 +1,7 @@
 modLoader="javafml"
 loaderVersion="[47,)"
 license="GPL-3.0"
-issueTrackerURL="https://github.com/xiaoxiao-cvs/Experience-Fix/issues"
+issueTrackerURL="https://github.com/xiaoxiao-cvs/ExperienceBar-Fix/issues"
 [[mods]]
 modId="experiencebarfix"
 version="${file.jarVersion}"
