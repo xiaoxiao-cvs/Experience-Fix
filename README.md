@@ -1,7 +1,6 @@
 # Experience Bar Fix
 
 [![Build and Release](https://github.com/xiaoxiao-cvs/ExperienceBar-Fix/actions/workflows/build.yml/badge.svg)](https://github.com/xiaoxiao-cvs/ExperienceBar-Fix/actions/workflows/build.yml)
-[![Security Scan](https://github.com/xiaoxiao-cvs/ExperienceBar-Fix/actions/workflows/security-scan.yml/badge.svg)](https://github.com/xiaoxiao-cvs/ExperienceBar-Fix/actions/workflows/security-scan.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Minecraft Version](https://img.shields.io/badge/Minecraft-1.20.1-green.svg)](https://minecraft.net/)
 [![Forge Version](https://img.shields.io/badge/Forge-47.2.0-orange.svg)](https://minecraftforge.net/)
